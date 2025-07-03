@@ -84,8 +84,6 @@ public class ODKDatabaseImplUtilsResetState extends AbstractODKDatabaseUtilsTest
         OdkConnectionFactorySingleton.getOdkConnectionFactoryInterface().removeAllConnections();
         ODKFileUtils.deleteDirectory(new File(ODKFileUtils.getAppFolder(getAppName())));
 
-        ODKFileUtils.verifyExternalStorageAvailability();
-
         ODKFileUtils.assertDirectoryStructure(getAppName());
 
         // +1 referenceCount if db is returned (non-null)

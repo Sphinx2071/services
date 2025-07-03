@@ -100,7 +100,7 @@ public class OdkWebkitServerService extends Service {
   private synchronized void startServer() {
     if (server == null || !server.isAlive()) {
       stopServer();
-      SimpleWebServer testing = new SimpleWebServer(WebkitServerConsts.HOSTNAME, WebkitServerConsts.PORT, new File(ODKFileUtils.getOdkFolder()).getAbsoluteFile(), false);
+      SimpleWebServer testing = new SimpleWebServer(WebkitServerConsts.HOSTNAME, WebkitServerConsts.PORT, new File(ODKFileUtils.getOdkxFolder()).getAbsoluteFile(), false);
       //SimpleWebServer testing = new SimpleWebServer();
       try {
         testing.start();

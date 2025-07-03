@@ -63,8 +63,6 @@ public class OdkWebserverServiceTest {
 
     @Before
     public void setUp() throws Exception {
-
-        ODKFileUtils.verifyExternalStorageAvailability();
         ODKFileUtils.assertDirectoryStructure(TestConsts.APPNAME);
 
         StaticStateManipulator.get().reset();

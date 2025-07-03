@@ -186,7 +186,6 @@ public class AbstractPermissionsTestCase {
 
   @Before
   public synchronized void setUp() throws Exception {
-    ODKFileUtils.verifyExternalStorageAvailability();
     ODKFileUtils.assertDirectoryStructure(APPNAME);
 
     boolean beganUninitialized = !initialized;

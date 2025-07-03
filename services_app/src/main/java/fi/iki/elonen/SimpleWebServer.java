@@ -363,9 +363,8 @@ public class SimpleWebServer extends NanoHTTPD {
 
 
     // Make sure we won't die of an exception later
-    File root = new File(ODKFileUtils.getOdkFolder());
+    File root = new File(ODKFileUtils.getOdkxFolder());
     try {
-      ODKFileUtils.verifyExternalStorageAvailability();
       if ( !root.exists() || !root.isDirectory()) {
         return getInternalErrorResponse("given path is not a directory (" + root.getAbsolutePath() + ").");
       }
