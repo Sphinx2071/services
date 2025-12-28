@@ -77,8 +77,7 @@ public class FormsProvider extends ContentProvider {
     AndroidConnectFactory.configure();
 
     try {
-      ODKFileUtils.verifyExternalStorageAvailability();
-      File f = new File(ODKFileUtils.getOdkFolder());
+      File f = new File(ODKFileUtils.getOdkxFolder());
       if (!f.exists()) {
         f.mkdir();
       } else if (!f.isDirectory()) {
@@ -150,7 +149,7 @@ public class FormsProvider extends ContentProvider {
     }
 
     pf.appName = segments.get(0);
-    ODKFileUtils.verifyExternalStorageAvailability();
+
     ODKFileUtils.assertDirectoryStructure(pf.appName);
 
     pf.tableId = null;

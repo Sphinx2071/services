@@ -60,7 +60,7 @@ public final class SQLiteGlobal {
             return sDefaultPageSize;
         }
 
-        String path = ODKFileUtils.getOdkFolder();
+        String path = ODKFileUtils.getOdkxFolder();
 
         synchronized (sLock) {
             if (sDefaultPageSize == 0L) {

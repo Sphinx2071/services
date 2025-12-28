@@ -44,7 +44,6 @@ public class PropertiesTest {
 
     @Before
     public void setUp() throws Exception {
-        ODKFileUtils.verifyExternalStorageAvailability();
         ODKFileUtils.assertDirectoryStructure(APPNAME);
 
         StaticStateManipulator.get().reset();

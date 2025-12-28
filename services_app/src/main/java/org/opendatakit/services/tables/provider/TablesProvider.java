@@ -85,8 +85,8 @@ public class TablesProvider extends ContentProvider {
     AndroidConnectFactory.configure();
 
     try {
-      ODKFileUtils.verifyExternalStorageAvailability();
-      File f = new File(ODKFileUtils.getOdkFolder());
+
+      File f = new File(ODKFileUtils.getOdkxFolder());
       if (!f.exists()) {
         f.mkdir();
       } else if (!f.isDirectory()) {

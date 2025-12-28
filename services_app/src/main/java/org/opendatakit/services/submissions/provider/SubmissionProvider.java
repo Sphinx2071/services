@@ -116,8 +116,8 @@ public class SubmissionProvider extends ContentProvider {
 
     // IMPORTANT NOTE: the Application object is not yet created!
     try {
-      ODKFileUtils.verifyExternalStorageAvailability();
-      File f = new File(ODKFileUtils.getOdkFolder());
+
+      File f = new File(ODKFileUtils.getOdkxFolder());
       if (!f.exists()) {
         f.mkdir();
       } else if (!f.isDirectory()) {
@@ -242,7 +242,7 @@ public class SubmissionProvider extends ContentProvider {
     PropertyManager propertyManager = new PropertyManager(getContext());
 
     final String appName = segments.get(0);
-    ODKFileUtils.verifyExternalStorageAvailability();
+
     ODKFileUtils.assertDirectoryStructure(appName);
     WebLoggerIf logger = WebLogger.getLogger(appName);
 
