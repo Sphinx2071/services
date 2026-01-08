@@ -451,4 +451,6 @@
     <string name="set_credentials">Set Credentials</string>
     <string name="sign_in_as_anonymous">Sign in as Anonymous User</string>
 
+    <string name="thrift_importer_permission">Run ODKX Thrift file importer</string>
+
 </resources>

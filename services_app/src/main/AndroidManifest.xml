@@ -45,6 +45,11 @@
         android:label="@string/sync_launch_permission"
         android:permissionGroup="org.opendatakit.services.permissions"
         android:protectionLevel="signature" />
+    <permission
+        android:name="org.opendatakit.thrift.RUN_FILE_IMPORTER"
+        android:label="@string/thrift_importer_permission"
+        android:permissionGroup="org.opendatakit.services.permissions"
+        android:protectionLevel="signature"/>
 
     <application
         android:name=".application.Services"
@@ -74,6 +79,12 @@
             android:exported="true"
             android:permission="org.opendatakit.sync.RUN_SYNC"
             android:process=":sync"></service>
+        <service
+            android:name=".thrift_file_importer.ThriftServerService"
+            android:exported="true"
+            android:permission="org.opendatakit.thrift.RUN_FILE_IMPORTER"
+            android:process=":thriftservice" />
+
         <service
             android:name=".sync.service.ClearSuccessfulSyncService"
             android:exported="false"></service>
