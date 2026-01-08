@@ -117,6 +117,7 @@ dependencies {
     implementation 'joda-time:joda-time:2.10.10'
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.3'
     implementation 'org.apache.httpcomponents.core5:httpcore5:5.2.4'
+    implementation 'org.apache.thrift:libthrift:0.22.0'
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-fileupload:commons-fileupload:1.5'
     implementation 'org.opendatakit:odkx-rest-interface:2.2.0-SNAPSHOT'
