@@ -10,9 +10,7 @@ import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.TProcessor;
-
 import org.opendatakit.services.thrift_file_importer.generated.FileService;
-import org.opendatakit.services.thrift_file_importer.FileServiceHandler;
 
 public class ThriftServerService extends Service {
     private static final String TAG = "ThriftServerService";

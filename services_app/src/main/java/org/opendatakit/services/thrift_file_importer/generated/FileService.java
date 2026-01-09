@@ -13,7 +13,9 @@ public class FileService {
 
     public void ping() throws org.apache.thrift.TException;
 
-    public java.lang.String upload(File f) throws org.apache.thrift.TException;
+    public TransferResult importFile(FilePayload f) throws org.apache.thrift.TException;
+
+    public FilePayload exportFile(java.lang.String relativePath) throws org.apache.thrift.TException;
 
   }
 
@@ -21,7 +23,9 @@ public class FileService {
 
     public void ping(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void upload(File f, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
+    public void importFile(FilePayload f, org.apache.thrift.async.AsyncMethodCallback<TransferResult> resultHandler) throws org.apache.thrift.TException;
+
+    public void exportFile(java.lang.String relativePath, org.apache.thrift.async.AsyncMethodCallback<FilePayload> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -68,27 +72,51 @@ public class FileService {
     }
 
     @Override
-    public java.lang.String upload(File f) throws org.apache.thrift.TException
+    public TransferResult importFile(FilePayload f) throws org.apache.thrift.TException
     {
-      send_upload(f);
-      return recv_upload();
+      send_importFile(f);
+      return recv_importFile();
     }
 
-    public void send_upload(File f) throws org.apache.thrift.TException
+    public void send_importFile(FilePayload f) throws org.apache.thrift.TException
     {
-      upload_args args = new upload_args();
+      importFile_args args = new importFile_args();
       args.setF(f);
-      sendBase("upload", args);
+      sendBase("importFile", args);
     }
 
-    public java.lang.String recv_upload() throws org.apache.thrift.TException
+    public TransferResult recv_importFile() throws org.apache.thrift.TException
     {
-      upload_result result = new upload_result();
-      receiveBase(result, "upload");
+      importFile_result result = new importFile_result();
+      receiveBase(result, "importFile");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "upload failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "importFile failed: unknown result");
+    }
+
+    @Override
+    public FilePayload exportFile(java.lang.String relativePath) throws org.apache.thrift.TException
+    {
+      send_exportFile(relativePath);
+      return recv_exportFile();
+    }
+
+    public void send_exportFile(java.lang.String relativePath) throws org.apache.thrift.TException
+    {
+      exportFile_args args = new exportFile_args();
+      args.setRelativePath(relativePath);
+      sendBase("exportFile", args);
+    }
+
+    public FilePayload recv_exportFile() throws org.apache.thrift.TException
+    {
+      exportFile_result result = new exportFile_result();
+      receiveBase(result, "exportFile");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "exportFile failed: unknown result");
     }
 
   }
@@ -144,37 +172,72 @@ public class FileService {
     }
 
     @Override
-    public void upload(File f, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
+    public void importFile(FilePayload f, org.apache.thrift.async.AsyncMethodCallback<TransferResult> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      upload_call method_call = new upload_call(f, resultHandler, this, ___protocolFactory, ___transport);
+      importFile_call method_call = new importFile_call(f, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class upload_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.String> {
-      private File f;
-      public upload_call(File f, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class importFile_call extends org.apache.thrift.async.TAsyncMethodCall<TransferResult> {
+      private FilePayload f;
+      public importFile_call(FilePayload f, org.apache.thrift.async.AsyncMethodCallback<TransferResult> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.f = f;
       }
 
       @Override
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("upload", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        upload_args args = new upload_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("importFile", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        importFile_args args = new importFile_args();
         args.setF(f);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
       @Override
-      public java.lang.String getResult() throws org.apache.thrift.TException {
+      public TransferResult getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_upload();
+        return (new Client(prot)).recv_importFile();
+      }
+    }
+
+    @Override
+    public void exportFile(java.lang.String relativePath, org.apache.thrift.async.AsyncMethodCallback<FilePayload> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      exportFile_call method_call = new exportFile_call(relativePath, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class exportFile_call extends org.apache.thrift.async.TAsyncMethodCall<FilePayload> {
+      private java.lang.String relativePath;
+      public exportFile_call(java.lang.String relativePath, org.apache.thrift.async.AsyncMethodCallback<FilePayload> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.relativePath = relativePath;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("exportFile", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        exportFile_args args = new exportFile_args();
+        args.setRelativePath(relativePath);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public FilePayload getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_exportFile();
       }
     }
 
@@ -192,7 +255,8 @@ public class FileService {
 
     private static <I extends Iface> java.util.Map<java.lang.String, org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase, ? extends org.apache.thrift.TBase>> getProcessMap(java.util.Map<java.lang.String, org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase, ? extends org.apache.thrift.TBase>> processMap) {
       processMap.put("ping", new ping());
-      processMap.put("upload", new upload());
+      processMap.put("importFile", new importFile());
+      processMap.put("exportFile", new exportFile());
       return processMap;
     }
 
@@ -229,14 +293,14 @@ public class FileService {
       }
     }
 
-    public static class upload<I extends Iface> extends org.apache.thrift.ProcessFunction<I, upload_args, upload_result> {
-      public upload() {
-        super("upload");
+    public static class importFile<I extends Iface> extends org.apache.thrift.ProcessFunction<I, importFile_args, importFile_result> {
+      public importFile() {
+        super("importFile");
       }
 
       @Override
-      public upload_args getEmptyArgsInstance() {
-        return new upload_args();
+      public importFile_args getEmptyArgsInstance() {
+        return new importFile_args();
       }
 
       @Override
@@ -250,14 +314,47 @@ public class FileService {
       }
 
       @Override
-      public upload_result getEmptyResultInstance() {
-        return new upload_result();
+      public importFile_result getEmptyResultInstance() {
+        return new importFile_result();
       }
 
       @Override
-      public upload_result getResult(I iface, upload_args args) throws org.apache.thrift.TException {
-        upload_result result = getEmptyResultInstance();
-        result.success = iface.upload(args.f);
+      public importFile_result getResult(I iface, importFile_args args) throws org.apache.thrift.TException {
+        importFile_result result = getEmptyResultInstance();
+        result.success = iface.importFile(args.f);
+        return result;
+      }
+    }
+
+    public static class exportFile<I extends Iface> extends org.apache.thrift.ProcessFunction<I, exportFile_args, exportFile_result> {
+      public exportFile() {
+        super("exportFile");
+      }
+
+      @Override
+      public exportFile_args getEmptyArgsInstance() {
+        return new exportFile_args();
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public exportFile_result getEmptyResultInstance() {
+        return new exportFile_result();
+      }
+
+      @Override
+      public exportFile_result getResult(I iface, exportFile_args args) throws org.apache.thrift.TException {
+        exportFile_result result = getEmptyResultInstance();
+        result.success = iface.exportFile(args.relativePath);
         return result;
       }
     }
@@ -276,7 +373,8 @@ public class FileService {
 
     private static <I extends AsyncIface> java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?, ? extends org.apache.thrift.TBase>> getProcessMap(java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?, ? extends org.apache.thrift.TBase>> processMap) {
       processMap.put("ping", new ping());
-      processMap.put("upload", new upload());
+      processMap.put("importFile", new importFile());
+      processMap.put("exportFile", new exportFile());
       return processMap;
     }
 
@@ -351,28 +449,28 @@ public class FileService {
       }
     }
 
-    public static class upload<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, upload_args, java.lang.String, upload_result> {
-      public upload() {
-        super("upload");
+    public static class importFile<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, importFile_args, TransferResult, importFile_result> {
+      public importFile() {
+        super("importFile");
       }
 
       @Override
-      public upload_result getEmptyResultInstance() {
-        return new upload_result();
+      public importFile_result getEmptyResultInstance() {
+        return new importFile_result();
       }
 
       @Override
-      public upload_args getEmptyArgsInstance() {
-        return new upload_args();
+      public importFile_args getEmptyArgsInstance() {
+        return new importFile_args();
       }
 
       @Override
-      public org.apache.thrift.async.AsyncMethodCallback<java.lang.String> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<TransferResult> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.String>() { 
+        return new org.apache.thrift.async.AsyncMethodCallback<TransferResult>() { 
           @Override
-          public void onComplete(java.lang.String o) {
-            upload_result result = new upload_result();
+          public void onComplete(TransferResult o) {
+            importFile_result result = new importFile_result();
             result.success = o;
             try {
               fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
@@ -388,7 +486,7 @@ public class FileService {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            upload_result result = new upload_result();
+            importFile_result result = new importFile_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -418,8 +516,80 @@ public class FileService {
       }
 
       @Override
-      public void start(I iface, upload_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
-        iface.upload(args.f,resultHandler);
+      public void start(I iface, importFile_args args, org.apache.thrift.async.AsyncMethodCallback<TransferResult> resultHandler) throws org.apache.thrift.TException {
+        iface.importFile(args.f,resultHandler);
+      }
+    }
+
+    public static class exportFile<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, exportFile_args, FilePayload, exportFile_result> {
+      public exportFile() {
+        super("exportFile");
+      }
+
+      @Override
+      public exportFile_result getEmptyResultInstance() {
+        return new exportFile_result();
+      }
+
+      @Override
+      public exportFile_args getEmptyArgsInstance() {
+        return new exportFile_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<FilePayload> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<FilePayload>() { 
+          @Override
+          public void onComplete(FilePayload o) {
+            exportFile_result result = new exportFile_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            exportFile_result result = new exportFile_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      public boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, exportFile_args args, org.apache.thrift.async.AsyncMethodCallback<FilePayload> resultHandler) throws org.apache.thrift.TException {
+        iface.exportFile(args.relativePath,resultHandler);
       }
     }
 
@@ -957,15 +1127,15 @@ public class FileService {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class upload_args implements org.apache.thrift.TBase<upload_args, upload_args._Fields>, java.io.Serializable, Cloneable, Comparable<upload_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("upload_args");
+  public static class importFile_args implements org.apache.thrift.TBase<importFile_args, importFile_args._Fields>, java.io.Serializable, Cloneable, Comparable<importFile_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("importFile_args");
 
     private static final org.apache.thrift.protocol.TField F_FIELD_DESC = new org.apache.thrift.protocol.TField("f", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new upload_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new upload_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new importFile_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new importFile_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable File f; // required
+    public @org.apache.thrift.annotation.Nullable FilePayload f; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -1034,16 +1204,16 @@ public class FileService {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.F, new org.apache.thrift.meta_data.FieldMetaData("f", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, File.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, FilePayload.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(upload_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(importFile_args.class, metaDataMap);
     }
 
-    public upload_args() {
+    public importFile_args() {
     }
 
-    public upload_args(
-      File f)
+    public importFile_args(
+      FilePayload f)
     {
       this();
       this.f = f;
@@ -1052,15 +1222,15 @@ public class FileService {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public upload_args(upload_args other) {
+    public importFile_args(importFile_args other) {
       if (other.isSetF()) {
-        this.f = new File(other.f);
+        this.f = new FilePayload(other.f);
       }
     }
 
     @Override
-    public upload_args deepCopy() {
-      return new upload_args(this);
+    public importFile_args deepCopy() {
+      return new importFile_args(this);
     }
 
     @Override
@@ -1069,11 +1239,11 @@ public class FileService {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public File getF() {
+    public FilePayload getF() {
       return this.f;
     }
 
-    public upload_args setF(@org.apache.thrift.annotation.Nullable File f) {
+    public importFile_args setF(@org.apache.thrift.annotation.Nullable FilePayload f) {
       this.f = f;
       return this;
     }
@@ -1100,7 +1270,7 @@ public class FileService {
         if (value == null) {
           unsetF();
         } else {
-          setF((File)value);
+          setF((FilePayload)value);
         }
         break;
 
@@ -1134,12 +1304,12 @@ public class FileService {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof upload_args)
-        return this.equals((upload_args)that);
+      if (that instanceof importFile_args)
+        return this.equals((importFile_args)that);
       return false;
     }
 
-    public boolean equals(upload_args that) {
+    public boolean equals(importFile_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -1169,7 +1339,7 @@ public class FileService {
     }
 
     @Override
-    public int compareTo(upload_args other) {
+    public int compareTo(importFile_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -1207,7 +1377,7 @@ public class FileService {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("upload_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("importFile_args(");
       boolean first = true;
 
       sb.append("f:");
@@ -1245,17 +1415,17 @@ public class FileService {
       }
     }
 
-    private static class upload_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    private static class importFile_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
       @Override
-      public upload_argsStandardScheme getScheme() {
-        return new upload_argsStandardScheme();
+      public importFile_argsStandardScheme getScheme() {
+        return new importFile_argsStandardScheme();
       }
     }
 
-    private static class upload_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<upload_args> {
+    private static class importFile_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<importFile_args> {
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol iprot, upload_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, importFile_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -1267,7 +1437,7 @@ public class FileService {
           switch (schemeField.id) {
             case 1: // F
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.f = new File();
+                struct.f = new FilePayload();
                 struct.f.read(iprot);
                 struct.setFIsSet(true);
               } else { 
@@ -1286,7 +1456,7 @@ public class FileService {
       }
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol oprot, upload_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, importFile_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -1301,17 +1471,17 @@ public class FileService {
 
     }
 
-    private static class upload_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    private static class importFile_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
       @Override
-      public upload_argsTupleScheme getScheme() {
-        return new upload_argsTupleScheme();
+      public importFile_argsTupleScheme getScheme() {
+        return new importFile_argsTupleScheme();
       }
     }
 
-    private static class upload_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<upload_args> {
+    private static class importFile_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<importFile_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, upload_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, importFile_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetF()) {
@@ -1324,11 +1494,11 @@ public class FileService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, upload_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, importFile_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.f = new File();
+          struct.f = new FilePayload();
           struct.f.read(iprot);
           struct.setFIsSet(true);
         }
@@ -1341,15 +1511,15 @@ public class FileService {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class upload_result implements org.apache.thrift.TBase<upload_result, upload_result._Fields>, java.io.Serializable, Cloneable, Comparable<upload_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("upload_result");
+  public static class importFile_result implements org.apache.thrift.TBase<importFile_result, importFile_result._Fields>, java.io.Serializable, Cloneable, Comparable<importFile_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("importFile_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new upload_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new upload_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new importFile_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new importFile_resultTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable java.lang.String success; // required
+    public @org.apache.thrift.annotation.Nullable TransferResult success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -1418,16 +1588,16 @@ public class FileService {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, TransferResult.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(upload_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(importFile_result.class, metaDataMap);
     }
 
-    public upload_result() {
+    public importFile_result() {
     }
 
-    public upload_result(
-      java.lang.String success)
+    public importFile_result(
+      TransferResult success)
     {
       this();
       this.success = success;
@@ -1436,15 +1606,15 @@ public class FileService {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public upload_result(upload_result other) {
+    public importFile_result(importFile_result other) {
       if (other.isSetSuccess()) {
-        this.success = other.success;
+        this.success = new TransferResult(other.success);
       }
     }
 
     @Override
-    public upload_result deepCopy() {
-      return new upload_result(this);
+    public importFile_result deepCopy() {
+      return new importFile_result(this);
     }
 
     @Override
@@ -1453,11 +1623,11 @@ public class FileService {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public java.lang.String getSuccess() {
+    public TransferResult getSuccess() {
       return this.success;
     }
 
-    public upload_result setSuccess(@org.apache.thrift.annotation.Nullable java.lang.String success) {
+    public importFile_result setSuccess(@org.apache.thrift.annotation.Nullable TransferResult success) {
       this.success = success;
       return this;
     }
@@ -1484,7 +1654,7 @@ public class FileService {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((java.lang.String)value);
+          setSuccess((TransferResult)value);
         }
         break;
 
@@ -1518,12 +1688,12 @@ public class FileService {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof upload_result)
-        return this.equals((upload_result)that);
+      if (that instanceof importFile_result)
+        return this.equals((importFile_result)that);
       return false;
     }
 
-    public boolean equals(upload_result that) {
+    public boolean equals(importFile_result that) {
       if (that == null)
         return false;
       if (this == that)
@@ -1553,7 +1723,7 @@ public class FileService {
     }
 
     @Override
-    public int compareTo(upload_result other) {
+    public int compareTo(importFile_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -1590,7 +1760,7 @@ public class FileService {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("upload_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("importFile_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -1598,6 +1768,390 @@ public class FileService {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class importFile_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public importFile_resultStandardScheme getScheme() {
+        return new importFile_resultStandardScheme();
+      }
+    }
+
+    private static class importFile_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<importFile_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, importFile_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new TransferResult();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, importFile_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class importFile_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public importFile_resultTupleScheme getScheme() {
+        return new importFile_resultTupleScheme();
+      }
+    }
+
+    private static class importFile_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<importFile_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, importFile_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, importFile_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new TransferResult();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class exportFile_args implements org.apache.thrift.TBase<exportFile_args, exportFile_args._Fields>, java.io.Serializable, Cloneable, Comparable<exportFile_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("exportFile_args");
+
+    private static final org.apache.thrift.protocol.TField RELATIVE_PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("relativePath", org.apache.thrift.protocol.TType.STRING, (short)1);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new exportFile_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new exportFile_argsTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable java.lang.String relativePath; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      RELATIVE_PATH((short)1, "relativePath");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // RELATIVE_PATH
+            return RELATIVE_PATH;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.RELATIVE_PATH, new org.apache.thrift.meta_data.FieldMetaData("relativePath", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(exportFile_args.class, metaDataMap);
+    }
+
+    public exportFile_args() {
+    }
+
+    public exportFile_args(
+      java.lang.String relativePath)
+    {
+      this();
+      this.relativePath = relativePath;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public exportFile_args(exportFile_args other) {
+      if (other.isSetRelativePath()) {
+        this.relativePath = other.relativePath;
+      }
+    }
+
+    @Override
+    public exportFile_args deepCopy() {
+      return new exportFile_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.relativePath = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getRelativePath() {
+      return this.relativePath;
+    }
+
+    public exportFile_args setRelativePath(@org.apache.thrift.annotation.Nullable java.lang.String relativePath) {
+      this.relativePath = relativePath;
+      return this;
+    }
+
+    public void unsetRelativePath() {
+      this.relativePath = null;
+    }
+
+    /** Returns true if field relativePath is set (has been assigned a value) and false otherwise */
+    public boolean isSetRelativePath() {
+      return this.relativePath != null;
+    }
+
+    public void setRelativePathIsSet(boolean value) {
+      if (!value) {
+        this.relativePath = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case RELATIVE_PATH:
+        if (value == null) {
+          unsetRelativePath();
+        } else {
+          setRelativePath((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case RELATIVE_PATH:
+        return getRelativePath();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case RELATIVE_PATH:
+        return isSetRelativePath();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof exportFile_args)
+        return this.equals((exportFile_args)that);
+      return false;
+    }
+
+    public boolean equals(exportFile_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_relativePath = true && this.isSetRelativePath();
+      boolean that_present_relativePath = true && that.isSetRelativePath();
+      if (this_present_relativePath || that_present_relativePath) {
+        if (!(this_present_relativePath && that_present_relativePath))
+          return false;
+        if (!this.relativePath.equals(that.relativePath))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetRelativePath()) ? 131071 : 524287);
+      if (isSetRelativePath())
+        hashCode = hashCode * 8191 + relativePath.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(exportFile_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRelativePath(), other.isSetRelativePath());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRelativePath()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.relativePath, other.relativePath);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("exportFile_args(");
+      boolean first = true;
+
+      sb.append("relativePath:");
+      if (this.relativePath == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.relativePath);
       }
       first = false;
       sb.append(")");
@@ -1625,17 +2179,398 @@ public class FileService {
       }
     }
 
-    private static class upload_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    private static class exportFile_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
       @Override
-      public upload_resultStandardScheme getScheme() {
-        return new upload_resultStandardScheme();
+      public exportFile_argsStandardScheme getScheme() {
+        return new exportFile_argsStandardScheme();
       }
     }
 
-    private static class upload_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<upload_result> {
+    private static class exportFile_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<exportFile_args> {
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol iprot, upload_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, exportFile_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // RELATIVE_PATH
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.relativePath = iprot.readString();
+                struct.setRelativePathIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, exportFile_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.relativePath != null) {
+          oprot.writeFieldBegin(RELATIVE_PATH_FIELD_DESC);
+          oprot.writeString(struct.relativePath);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class exportFile_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public exportFile_argsTupleScheme getScheme() {
+        return new exportFile_argsTupleScheme();
+      }
+    }
+
+    private static class exportFile_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<exportFile_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, exportFile_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRelativePath()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetRelativePath()) {
+          oprot.writeString(struct.relativePath);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, exportFile_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.relativePath = iprot.readString();
+          struct.setRelativePathIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class exportFile_result implements org.apache.thrift.TBase<exportFile_result, exportFile_result._Fields>, java.io.Serializable, Cloneable, Comparable<exportFile_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("exportFile_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new exportFile_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new exportFile_resultTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable FilePayload success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, FilePayload.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(exportFile_result.class, metaDataMap);
+    }
+
+    public exportFile_result() {
+    }
+
+    public exportFile_result(
+      FilePayload success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public exportFile_result(exportFile_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new FilePayload(other.success);
+      }
+    }
+
+    @Override
+    public exportFile_result deepCopy() {
+      return new exportFile_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public FilePayload getSuccess() {
+      return this.success;
+    }
+
+    public exportFile_result setSuccess(@org.apache.thrift.annotation.Nullable FilePayload success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((FilePayload)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof exportFile_result)
+        return this.equals((exportFile_result)that);
+      return false;
+    }
+
+    public boolean equals(exportFile_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(exportFile_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("exportFile_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class exportFile_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public exportFile_resultStandardScheme getScheme() {
+        return new exportFile_resultStandardScheme();
+      }
+    }
+
+    private static class exportFile_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<exportFile_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, exportFile_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -1646,8 +2581,9 @@ public class FileService {
           }
           switch (schemeField.id) {
             case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.success = iprot.readString();
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new FilePayload();
+                struct.success.read(iprot);
                 struct.setSuccessIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -1665,13 +2601,13 @@ public class FileService {
       }
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol oprot, upload_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, exportFile_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
         if (struct.success != null) {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          oprot.writeString(struct.success);
+          struct.success.write(oprot);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -1680,17 +2616,17 @@ public class FileService {
 
     }
 
-    private static class upload_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    private static class exportFile_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
       @Override
-      public upload_resultTupleScheme getScheme() {
-        return new upload_resultTupleScheme();
+      public exportFile_resultTupleScheme getScheme() {
+        return new exportFile_resultTupleScheme();
       }
     }
 
-    private static class upload_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<upload_result> {
+    private static class exportFile_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<exportFile_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, upload_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, exportFile_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetSuccess()) {
@@ -1698,16 +2634,17 @@ public class FileService {
         }
         oprot.writeBitSet(optionals, 1);
         if (struct.isSetSuccess()) {
-          oprot.writeString(struct.success);
+          struct.success.write(oprot);
         }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, upload_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, exportFile_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = iprot.readString();
+          struct.success = new FilePayload();
+          struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }
       }

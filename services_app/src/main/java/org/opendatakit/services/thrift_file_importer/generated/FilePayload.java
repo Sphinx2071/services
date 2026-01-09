@@ -7,18 +7,20 @@
 package org.opendatakit.services.thrift_file_importer.generated;
 
 @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-public class File implements org.apache.thrift.TBase<File, File._Fields>, java.io.Serializable, Cloneable, Comparable<File> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("File");
+public class FilePayload implements org.apache.thrift.TBase<FilePayload, FilePayload._Fields>, java.io.Serializable, Cloneable, Comparable<FilePayload> {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("FilePayload");
 
   private static final org.apache.thrift.protocol.TField FILE_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("fileName", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField FILE_SIZE_FIELD_DESC = new org.apache.thrift.protocol.TField("fileSize", org.apache.thrift.protocol.TType.I64, (short)2);
-  private static final org.apache.thrift.protocol.TField MD5_HASH_FIELD_DESC = new org.apache.thrift.protocol.TField("md5_hash", org.apache.thrift.protocol.TType.STRING, (short)3);
-  private static final org.apache.thrift.protocol.TField FILE_DATA_FIELD_DESC = new org.apache.thrift.protocol.TField("fileData", org.apache.thrift.protocol.TType.STRING, (short)4);
+  private static final org.apache.thrift.protocol.TField RELATIVE_PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("relativePath", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField FILE_SIZE_FIELD_DESC = new org.apache.thrift.protocol.TField("fileSize", org.apache.thrift.protocol.TType.I64, (short)3);
+  private static final org.apache.thrift.protocol.TField MD5_HASH_FIELD_DESC = new org.apache.thrift.protocol.TField("md5_hash", org.apache.thrift.protocol.TType.STRING, (short)4);
+  private static final org.apache.thrift.protocol.TField FILE_DATA_FIELD_DESC = new org.apache.thrift.protocol.TField("fileData", org.apache.thrift.protocol.TType.STRING, (short)5);
 
-  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new FileStandardSchemeFactory();
-  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new FileTupleSchemeFactory();
+  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new FilePayloadStandardSchemeFactory();
+  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new FilePayloadTupleSchemeFactory();
 
   public @org.apache.thrift.annotation.Nullable java.lang.String fileName; // required
+  public @org.apache.thrift.annotation.Nullable java.lang.String relativePath; // required
   public long fileSize; // required
   public @org.apache.thrift.annotation.Nullable java.lang.String md5_hash; // required
   public @org.apache.thrift.annotation.Nullable java.nio.ByteBuffer fileData; // required
@@ -26,9 +28,10 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     FILE_NAME((short)1, "fileName"),
-    FILE_SIZE((short)2, "fileSize"),
-    MD5_HASH((short)3, "md5_hash"),
-    FILE_DATA((short)4, "fileData");
+    RELATIVE_PATH((short)2, "relativePath"),
+    FILE_SIZE((short)3, "fileSize"),
+    MD5_HASH((short)4, "md5_hash"),
+    FILE_DATA((short)5, "fileData");
 
     private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -46,11 +49,13 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
       switch(fieldId) {
         case 1: // FILE_NAME
           return FILE_NAME;
-        case 2: // FILE_SIZE
+        case 2: // RELATIVE_PATH
+          return RELATIVE_PATH;
+        case 3: // FILE_SIZE
           return FILE_SIZE;
-        case 3: // MD5_HASH
+        case 4: // MD5_HASH
           return MD5_HASH;
-        case 4: // FILE_DATA
+        case 5: // FILE_DATA
           return FILE_DATA;
         default:
           return null;
@@ -102,6 +107,8 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.FILE_NAME, new org.apache.thrift.meta_data.FieldMetaData("fileName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.RELATIVE_PATH, new org.apache.thrift.meta_data.FieldMetaData("relativePath", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.FILE_SIZE, new org.apache.thrift.meta_data.FieldMetaData("fileSize", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     tmpMap.put(_Fields.MD5_HASH, new org.apache.thrift.meta_data.FieldMetaData("md5_hash", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -109,20 +116,22 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     tmpMap.put(_Fields.FILE_DATA, new org.apache.thrift.meta_data.FieldMetaData("fileData", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(File.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(FilePayload.class, metaDataMap);
   }
 
-  public File() {
+  public FilePayload() {
   }
 
-  public File(
+  public FilePayload(
     java.lang.String fileName,
+    java.lang.String relativePath,
     long fileSize,
     java.lang.String md5_hash,
     java.nio.ByteBuffer fileData)
   {
     this();
     this.fileName = fileName;
+    this.relativePath = relativePath;
     this.fileSize = fileSize;
     setFileSizeIsSet(true);
     this.md5_hash = md5_hash;
@@ -132,10 +141,13 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public File(File other) {
+  public FilePayload(FilePayload other) {
     __isset_bitfield = other.__isset_bitfield;
     if (other.isSetFileName()) {
       this.fileName = other.fileName;
+    }
+    if (other.isSetRelativePath()) {
+      this.relativePath = other.relativePath;
     }
     this.fileSize = other.fileSize;
     if (other.isSetMd5_hash()) {
@@ -147,13 +159,14 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
   }
 
   @Override
-  public File deepCopy() {
-    return new File(this);
+  public FilePayload deepCopy() {
+    return new FilePayload(this);
   }
 
   @Override
   public void clear() {
     this.fileName = null;
+    this.relativePath = null;
     setFileSizeIsSet(false);
     this.fileSize = 0;
     this.md5_hash = null;
@@ -165,7 +178,7 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     return this.fileName;
   }
 
-  public File setFileName(@org.apache.thrift.annotation.Nullable java.lang.String fileName) {
+  public FilePayload setFileName(@org.apache.thrift.annotation.Nullable java.lang.String fileName) {
     this.fileName = fileName;
     return this;
   }
@@ -185,11 +198,36 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     }
   }
 
+  @org.apache.thrift.annotation.Nullable
+  public java.lang.String getRelativePath() {
+    return this.relativePath;
+  }
+
+  public FilePayload setRelativePath(@org.apache.thrift.annotation.Nullable java.lang.String relativePath) {
+    this.relativePath = relativePath;
+    return this;
+  }
+
+  public void unsetRelativePath() {
+    this.relativePath = null;
+  }
+
+  /** Returns true if field relativePath is set (has been assigned a value) and false otherwise */
+  public boolean isSetRelativePath() {
+    return this.relativePath != null;
+  }
+
+  public void setRelativePathIsSet(boolean value) {
+    if (!value) {
+      this.relativePath = null;
+    }
+  }
+
   public long getFileSize() {
     return this.fileSize;
   }
 
-  public File setFileSize(long fileSize) {
+  public FilePayload setFileSize(long fileSize) {
     this.fileSize = fileSize;
     setFileSizeIsSet(true);
     return this;
@@ -213,7 +251,7 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     return this.md5_hash;
   }
 
-  public File setMd5_hash(@org.apache.thrift.annotation.Nullable java.lang.String md5_hash) {
+  public FilePayload setMd5_hash(@org.apache.thrift.annotation.Nullable java.lang.String md5_hash) {
     this.md5_hash = md5_hash;
     return this;
   }
@@ -242,12 +280,12 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     return org.apache.thrift.TBaseHelper.copyBinary(fileData);
   }
 
-  public File setFileData(byte[] fileData) {
+  public FilePayload setFileData(byte[] fileData) {
     this.fileData = fileData == null ? (java.nio.ByteBuffer)null   : java.nio.ByteBuffer.wrap(fileData.clone());
     return this;
   }
 
-  public File setFileData(@org.apache.thrift.annotation.Nullable java.nio.ByteBuffer fileData) {
+  public FilePayload setFileData(@org.apache.thrift.annotation.Nullable java.nio.ByteBuffer fileData) {
     this.fileData = org.apache.thrift.TBaseHelper.copyBinary(fileData);
     return this;
   }
@@ -275,6 +313,14 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
         unsetFileName();
       } else {
         setFileName((java.lang.String)value);
+      }
+      break;
+
+    case RELATIVE_PATH:
+      if (value == null) {
+        unsetRelativePath();
+      } else {
+        setRelativePath((java.lang.String)value);
       }
       break;
 
@@ -316,6 +362,9 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     case FILE_NAME:
       return getFileName();
 
+    case RELATIVE_PATH:
+      return getRelativePath();
+
     case FILE_SIZE:
       return getFileSize();
 
@@ -339,6 +388,8 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     switch (field) {
     case FILE_NAME:
       return isSetFileName();
+    case RELATIVE_PATH:
+      return isSetRelativePath();
     case FILE_SIZE:
       return isSetFileSize();
     case MD5_HASH:
@@ -351,12 +402,12 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
 
   @Override
   public boolean equals(java.lang.Object that) {
-    if (that instanceof File)
-      return this.equals((File)that);
+    if (that instanceof FilePayload)
+      return this.equals((FilePayload)that);
     return false;
   }
 
-  public boolean equals(File that) {
+  public boolean equals(FilePayload that) {
     if (that == null)
       return false;
     if (this == that)
@@ -368,6 +419,15 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
       if (!(this_present_fileName && that_present_fileName))
         return false;
       if (!this.fileName.equals(that.fileName))
+        return false;
+    }
+
+    boolean this_present_relativePath = true && this.isSetRelativePath();
+    boolean that_present_relativePath = true && that.isSetRelativePath();
+    if (this_present_relativePath || that_present_relativePath) {
+      if (!(this_present_relativePath && that_present_relativePath))
+        return false;
+      if (!this.relativePath.equals(that.relativePath))
         return false;
     }
 
@@ -409,6 +469,10 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     if (isSetFileName())
       hashCode = hashCode * 8191 + fileName.hashCode();
 
+    hashCode = hashCode * 8191 + ((isSetRelativePath()) ? 131071 : 524287);
+    if (isSetRelativePath())
+      hashCode = hashCode * 8191 + relativePath.hashCode();
+
     hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(fileSize);
 
     hashCode = hashCode * 8191 + ((isSetMd5_hash()) ? 131071 : 524287);
@@ -423,7 +487,7 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
   }
 
   @Override
-  public int compareTo(File other) {
+  public int compareTo(FilePayload other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
@@ -436,6 +500,16 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     }
     if (isSetFileName()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.fileName, other.fileName);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = java.lang.Boolean.compare(isSetRelativePath(), other.isSetRelativePath());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetRelativePath()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.relativePath, other.relativePath);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -491,7 +565,7 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
 
   @Override
   public java.lang.String toString() {
-    java.lang.StringBuilder sb = new java.lang.StringBuilder("File(");
+    java.lang.StringBuilder sb = new java.lang.StringBuilder("FilePayload(");
     boolean first = true;
 
     sb.append("fileName:");
@@ -499,6 +573,14 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
       sb.append("null");
     } else {
       sb.append(this.fileName);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("relativePath:");
+    if (this.relativePath == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.relativePath);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -548,17 +630,17 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     }
   }
 
-  private static class FileStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class FilePayloadStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
     @Override
-    public FileStandardScheme getScheme() {
-      return new FileStandardScheme();
+    public FilePayloadStandardScheme getScheme() {
+      return new FilePayloadStandardScheme();
     }
   }
 
-  private static class FileStandardScheme extends org.apache.thrift.scheme.StandardScheme<File> {
+  private static class FilePayloadStandardScheme extends org.apache.thrift.scheme.StandardScheme<FilePayload> {
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol iprot, File struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, FilePayload struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -576,7 +658,15 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // FILE_SIZE
+          case 2: // RELATIVE_PATH
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.relativePath = iprot.readString();
+              struct.setRelativePathIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 3: // FILE_SIZE
             if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
               struct.fileSize = iprot.readI64();
               struct.setFileSizeIsSet(true);
@@ -584,7 +674,7 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 3: // MD5_HASH
+          case 4: // MD5_HASH
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
               struct.md5_hash = iprot.readString();
               struct.setMd5_hashIsSet(true);
@@ -592,7 +682,7 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 4: // FILE_DATA
+          case 5: // FILE_DATA
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
               struct.fileData = iprot.readBinary();
               struct.setFileDataIsSet(true);
@@ -612,13 +702,18 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     }
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol oprot, File struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, FilePayload struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
       if (struct.fileName != null) {
         oprot.writeFieldBegin(FILE_NAME_FIELD_DESC);
         oprot.writeString(struct.fileName);
+        oprot.writeFieldEnd();
+      }
+      if (struct.relativePath != null) {
+        oprot.writeFieldBegin(RELATIVE_PATH_FIELD_DESC);
+        oprot.writeString(struct.relativePath);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldBegin(FILE_SIZE_FIELD_DESC);
@@ -640,34 +735,40 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
 
   }
 
-  private static class FileTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class FilePayloadTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
     @Override
-    public FileTupleScheme getScheme() {
-      return new FileTupleScheme();
+    public FilePayloadTupleScheme getScheme() {
+      return new FilePayloadTupleScheme();
     }
   }
 
-  private static class FileTupleScheme extends org.apache.thrift.scheme.TupleScheme<File> {
+  private static class FilePayloadTupleScheme extends org.apache.thrift.scheme.TupleScheme<FilePayload> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, File struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, FilePayload struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       java.util.BitSet optionals = new java.util.BitSet();
       if (struct.isSetFileName()) {
         optionals.set(0);
       }
-      if (struct.isSetFileSize()) {
+      if (struct.isSetRelativePath()) {
         optionals.set(1);
       }
-      if (struct.isSetMd5_hash()) {
+      if (struct.isSetFileSize()) {
         optionals.set(2);
       }
-      if (struct.isSetFileData()) {
+      if (struct.isSetMd5_hash()) {
         optionals.set(3);
       }
-      oprot.writeBitSet(optionals, 4);
+      if (struct.isSetFileData()) {
+        optionals.set(4);
+      }
+      oprot.writeBitSet(optionals, 5);
       if (struct.isSetFileName()) {
         oprot.writeString(struct.fileName);
+      }
+      if (struct.isSetRelativePath()) {
+        oprot.writeString(struct.relativePath);
       }
       if (struct.isSetFileSize()) {
         oprot.writeI64(struct.fileSize);
@@ -681,22 +782,26 @@ public class File implements org.apache.thrift.TBase<File, File._Fields>, java.i
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, File struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, FilePayload struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-      java.util.BitSet incoming = iprot.readBitSet(4);
+      java.util.BitSet incoming = iprot.readBitSet(5);
       if (incoming.get(0)) {
         struct.fileName = iprot.readString();
         struct.setFileNameIsSet(true);
       }
       if (incoming.get(1)) {
+        struct.relativePath = iprot.readString();
+        struct.setRelativePathIsSet(true);
+      }
+      if (incoming.get(2)) {
         struct.fileSize = iprot.readI64();
         struct.setFileSizeIsSet(true);
       }
-      if (incoming.get(2)) {
+      if (incoming.get(3)) {
         struct.md5_hash = iprot.readString();
         struct.setMd5_hashIsSet(true);
       }
-      if (incoming.get(3)) {
+      if (incoming.get(4)) {
         struct.fileData = iprot.readBinary();
         struct.setFileDataIsSet(true);
       }

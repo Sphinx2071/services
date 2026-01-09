@@ -3,8 +3,7 @@ package org.opendatakit.services.thrift_file_importer;
 import android.util.Log;
 
 import org.apache.thrift.TException;
-import org.opendatakit.services.thrift_file_importer.generated.File;
-import org.opendatakit.services.thrift_file_importer.generated.FileService;
+import org.opendatakit.services.thrift_file_importer.generated.*;
 
 public class FileServiceHandler implements FileService.Iface{
 
@@ -17,7 +16,12 @@ public class FileServiceHandler implements FileService.Iface{
     }
 
     @Override
-    public String upload(File f) throws TException {
-        return "";
+    public TransferResult importFile(FilePayload f) throws TException {
+        return new TransferResult();
+    }
+
+    @Override
+    public FilePayload exportFile(String path) throws TException{
+        return new FilePayload();
     }
 }
