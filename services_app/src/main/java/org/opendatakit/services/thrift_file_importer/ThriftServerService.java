@@ -30,7 +30,7 @@ public class ThriftServerService extends Service {
     private void startThriftServer() {
         serverThread = new Thread(() -> {
             try {
-                FileServiceHandler handler = new FileServiceHandler();
+                FileServiceHandler handler = new FileServiceHandler(this);
                 TProcessor processor = new FileService.Processor<>(handler);
 
                 TServerTransport serverTransport = new TServerSocket(PORT);
